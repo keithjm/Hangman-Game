@@ -15,22 +15,26 @@ var userCorrectGuesses = [];
 //word Randomly Selected to be the answer
 var solution = [];
 
+var usertext = document.getElementById("game");
+
 //Resets 
 function newRound() {
     roundReset();
     solution = wordList[Math.floor(Math.random() * wordList.length)];
-    userCorrectGuesses.length=solution.length;
+    userCorrectGuesses.length = solution.length;
 
-}   
-
+};
+newRound();
 //Logic when a letter is guessed by player
-function guessLetter(guess) {
+function guessLetter(guess) {   
     guess = guess.toLowerCase();
-    console.log("Solution: " + solution);
     console.log("User guess: " + guess);
+    console.log("Solution: " + solution);
+
     
 
     //Checking if letter has been typed before
+    //Rewrite as for loop iterating over word to find equality of letters
     if(userCorrectGuesses.indexOf(guess) == -1) {
     //User guesses correctly
         if(solution.indexOf(guess) != -1) {
@@ -45,7 +49,10 @@ function guessLetter(guess) {
             console.log(userCorrectGuesses);
         }
     }
-}
+
+    console.log(userCorrectGuesses.toString());
+
+};
 
 
 //Resets the game for a new round
@@ -70,5 +77,8 @@ function letterCheck(input) {
         return false;
     }
 };
+
+
+    
 
 
