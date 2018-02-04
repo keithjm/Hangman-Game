@@ -48,15 +48,14 @@ function guessLetter(guess) {
     console.log("Guesses Remaining: " + guessesRemaining);
 
     //Checking if letter has been typed before
-    //Rewrite as for loop iterating over word to find equality of letters
     if(solution.indexOf(guess) != -1) {
         for(var i= 0; i < solution.length; i++) {
             if(guess === solution[i]) {
                 userCorrectGuesses[i] = guess;
             }
         } 
-    //If user picks a wrong letter
-    } else {
+    //If user picks a wrong letter that has not been chosen before
+    } else if(userWrongGuesses.indexOf(guess) == -1) {
         userWrongGuesses.push(guess);
         guessesRemaining--;
     }
@@ -77,6 +76,10 @@ document.onkeyup = function(event) {
     if(letterCheck(event.key)) {
         guessLetter(event.key);
     }
+    $("#hangman-board").text(userCorrectGuesses.join(""));
+    $("#wrong-guesses").text(userWrongGuesses.join(""));
+    $("#guesses-remaining").text(guessesRemaining);
+
 };
 
 //Check if input is letter (Not Working)
@@ -88,3 +91,10 @@ function letterCheck(input) {
     }
 };
 
+$(document).ready(function() {
+    $("#hangman-board").text(userCorrectGuesses.join(""));
+    $("#wrong-guesses").text(userWrongGuesses.join(""));
+    $("#guesses-remaining").text(guessesRemaining);
+
+
+})
