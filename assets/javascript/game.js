@@ -17,6 +17,12 @@ var userCorrectGuesses = [];
 //word Randomly Selected to be the answer
 var solution = [];
 
+//Lower limit of ASCII keyCode
+var keyCodeMin = 65;
+
+//Upper Limit of ASCII keyCode
+var keyCodeMax = 122;
+
 //Testing functions (to be deleted)
 newRound();
 
@@ -37,7 +43,7 @@ function fillArray(array) {
         } else {
             array[i] = "_";
         }
-    };
+    }
 };
 
 //Logic when a letter is guessed by player
@@ -64,6 +70,7 @@ function guessLetter(guess) {
     console.log("-----------------------");
 };
 
+
 //Resets the game for a new round
 function roundReset() {
     guessesRemaining = guessLimit;
@@ -73,24 +80,27 @@ function roundReset() {
 
 //When key is pressed, function runs
 document.onkeyup = function(event) {
-    if(letterCheck(event.key)) {
+    if(letterCheck(event)) {
         guessLetter(event.key);
     }
     $("#hangman-board").text(userCorrectGuesses.join(""));
     $("#wrong-guesses").text(userWrongGuesses.join(""));
     $("#guesses-remaining").text(guessesRemaining);
+   
+}; 
 
-};
-
-//Check if input is letter (Not Working)
+//Check if input is letter or symbol and not command keys
 function letterCheck(input) {
-    if((input.charCodeAt(0) >= 65 && input.charCodeAt(0) <= 90) || (input.charCodeAt(0) >= 97 && input.charCodeAt(0) <= 122)) {
+    if(input.keyCode >= keyCodeMin && input.keyCode <= keyCodeMax){
         return true;
     } else {
+        //console.log("keycode outside range");
         return false;
     }
 };
 
+
+//Ready function 
 $(document).ready(function() {
     $("#hangman-board").text(userCorrectGuesses.join(""));
     $("#wrong-guesses").text(userWrongGuesses.join(""));
