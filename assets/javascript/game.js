@@ -34,13 +34,20 @@ newRound();
 
 //Resets for a new round
 function newRound() {
-    roundReset();
+    guessesRemaining = guessLimit;
+    userGuesses = [];
+    userWrongGuesses = [];
+    userCorrectGuesses = [];
+    solution = [];
     solution = wordList[Math.floor(Math.random() * wordList.length)].toLowerCase();
     userCorrectGuesses.length = solution.length;
     solutionLettersRemaining = getSolutionLength(solution);
     fillArray(userCorrectGuesses);
     console.log("Solution letters remaining: " + solutionLettersRemaining);
-};
+    $("#hangman-board").text(userCorrectGuesses.join(""));
+    $("#wrong-guesses").text(userWrongGuesses.join(""));
+    $("#guesses-remaining").text(guessesRemaining);
+}
 
 //Fills the empty array with an underscore in place of letter and space in place of space
 function fillArray(array) {
@@ -51,7 +58,7 @@ function fillArray(array) {
             array[i] = "_";
         }
     }
-};
+}
 
 //Logic when a letter is guessed by player
 function guessLetter(guess) {   
@@ -92,7 +99,7 @@ function guessLetter(guess) {
         console.log("Solution letters Remaining: " + solutionLettersRemaining);
         console.log("-----------------------");
     }
-};
+}
 
 function getSolutionLength(array) {
     var length = 0;
@@ -107,8 +114,7 @@ function getSolutionLength(array) {
 
 //Resets the game for a new round
 function roundReset() {
-    guessesRemaining = guessLimit;
-    userGuesses = [];
+
     
 
 }
@@ -122,7 +128,7 @@ document.onkeyup = function(event) {
     $("#wrong-guesses").text(userWrongGuesses.join(""));
     $("#guesses-remaining").text(guessesRemaining);
    
-}; 
+}
 
 //Check if input is letter or symbol and not command keys
 function letterCheck(input) {
@@ -132,18 +138,15 @@ function letterCheck(input) {
         //console.log("keycode outside range");
         return false;
     }
-};
+}
 
+$("#play-again-button").on("click", function() {
+    newRound();
+});
 
 //Ready function 
 $(document).ready(function() {
     $("#hangman-board").text(userCorrectGuesses.join(""));
     $("#wrong-guesses").text(userWrongGuesses.join(""));
     $("#guesses-remaining").text(guessesRemaining);
-
-    $("#play-again-button").on("click", function() {
-        newRound();
-    });
-
-
 })
