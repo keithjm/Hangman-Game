@@ -26,7 +26,9 @@ var keyCodeMin = 65;
 //Upper Limit of ASCII keyCode
 var keyCodeMax = 122;
 
-//Testing functions (to be deleted)
+var roundsWon = 0;
+
+var roundsLost = 0;
 
 
 newRound();
@@ -47,6 +49,8 @@ function newRound() {
     $("#hangman-board").text(userCorrectGuesses.join(""));
     $("#wrong-guesses").text(userWrongGuesses.join(""));
     $("#guesses-remaining").text(guessesRemaining);
+    $("#rounds-won").text(roundsWon);
+    $("#rounds-lost").text(roundsLost);
 }
 
 //Fills the empty array with an underscore in place of letter and space in place of space
@@ -88,11 +92,15 @@ function guessLetter(guess) {
 
         if(guessesRemaining == 0) {
             console.log("You lost");
-            $("#heading-alert").html('<div class="alert alert-danger">You Lost<button type="button" class="btn btn-default" id="play-again-button">Play Again?</button></div>');
+            $("#heading-alert").html('<div class="alert alert-danger">You Lost. Press any key to start a new round.</div>');
+            roundsLost++;
+            
         }
         if(solutionLettersRemaining == 0) {
             console.log("You won!!!!!!!");
-            $("#heading-alert").html('<div class="alert alert-success">You won!<button type="button" class="btn btn-default" id="play-again-button">Play Again?</button></div>');
+            $("#heading-alert").html('<div class="alert alert-success">You won! Press any key to start a new round.</div>');
+            roundsWon++;
+            
         }
 
         console.log(userCorrectGuesses.toString());
@@ -111,22 +119,22 @@ function getSolutionLength(array) {
     return length;
 }
 
-
-//Resets the game for a new round
-function roundReset() {
-
-    
-
-}
-
 //When key is pressed, function runs
 document.onkeyup = function(event) {
-    if(letterCheck(event)) {
+    if(guessesRemaining == 0 || solutionLettersRemaining == 0) {
+        var solutionLast = solution;
+        //$("#hangman-board").text(solution.join(""));
+        newRound();
+    } else if (letterCheck(event)) {
         guessLetter(event.key);
+        $("#hangman-board").text(userCorrectGuesses.join(""));
+        $("#wrong-guesses").text(userWrongGuesses.join(""));
+        $("#guesses-remaining").text(guessesRemaining);
+        $("#rounds-won").text(roundsWon);
+        $("#rounds-lost").text(roundsLost);
+
     }
-    $("#hangman-board").text(userCorrectGuesses.join(""));
-    $("#wrong-guesses").text(userWrongGuesses.join(""));
-    $("#guesses-remaining").text(guessesRemaining);
+
    
 }
 
@@ -135,14 +143,9 @@ function letterCheck(input) {
     if(input.keyCode >= keyCodeMin && input.keyCode <= keyCodeMax){
         return true;
     } else {
-        //console.log("keycode outside range");
         return false;
     }
 }
-
-$("#play-again-button").on("click", function() {
-    newRound();
-});
 
 //Ready function 
 $(document).ready(function() {
