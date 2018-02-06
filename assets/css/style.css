@@ -3,4 +3,9 @@
     font-size: 30px;
     text-align: center;
     letter-spacing: 3px;
+    margin:40px;
+}
+
+#heading-alert {
+    margin:40px;
 }
